@@ -15,6 +15,8 @@ namespace Bank_SyStem.Registration
             //Read All Lines
             string path = "C:\\BankRegistration";
             string pathFile = $@"{path}\userRegistration.txt";
+            if (File.Exists(pathFile))
+            {
             string[] members = File.ReadAllLines(pathFile);
             foreach(string member in members)
             {
@@ -27,16 +29,18 @@ namespace Bank_SyStem.Registration
                     break;
                 }
             }
+            }
         }
         public void enterRegistration()
         {
             Console.WriteLine("Enter UserName");
             string userName = Console.ReadLine().ToLower();
             //Call our check to have a look at email entered
-            checkUser(userName);
+          
             if (userName.Length >= 1)
             {
                 Console.WriteLine($"You entered {userName}");
+                checkUser(userName);
                 //Check Password
                 Console.WriteLine("Enter Password");
                 string userPassword = Console.ReadLine().ToLower();
@@ -50,13 +54,29 @@ namespace Bank_SyStem.Registration
                     string pathFile = $@"{path}\userRegistration.txt";
                     if (File.Exists(pathFile))
                     {
-                        //Append Values
-                        File.AppendAllText(pathFile, $"\n{userName}:{userPassword}");
+                   //Append user to existing users
+                        string role = "user";
+                        string[] users = File.ReadAllLines(pathFile);
+                        int members = users.Length;
+                        members++;
+                        File.AppendAllText(pathFile, $"\n{members}:{userName}:{userPassword}:{role}");
+                        //After registering user to system  Login
+                        Login userOne = new Login();
+                        userOne.loginUser();
                     }
                     else
                     {
+                        //Enter admin
+                        string adminName = "admin";
+                        string password = "admin1234";
+                        string role = "admin";
+                        string id = "1";
                         //Create file
-                        File.WriteAllText(pathFile, $"{userName}:{userPassword}");
+                        File.WriteAllText(pathFile, $"{id}:{adminName}:{password}:{role}");
+                        string[] users = File.ReadAllLines(pathFile);
+                        int members = users.Length;
+                        members++;
+                        File.AppendAllText(pathFile, $"\n{members}:{userName}:{userPassword}:user");
                     }
                 }
                 else
