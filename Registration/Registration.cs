@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Bank_SyStem.Model;
+using Bank_SyStem.Service;
+using Bank_SyStem.Service.Iservice;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +34,7 @@ namespace Bank_SyStem.Registration
             }
             }
         }
-        public void enterRegistration()
+        public async Task  enterRegistration()
         {
             Console.WriteLine("Enter UserName");
             string userName = Console.ReadLine().ToLower();
@@ -40,11 +43,22 @@ namespace Bank_SyStem.Registration
             if (userName.Length >= 1)
             {
                 Console.WriteLine($"You entered {userName}");
-                checkUser(userName);
+             /*   checkUser(userName);*/
                 //Check Password
                 Console.WriteLine("Enter Password");
                 string userPassword = Console.ReadLine().ToLower();
-                if (userPassword.Length >= 8)
+
+                //Call the Model pass value
+                AddUser user = new AddUser();
+                user.userName = userName;
+                user.userPassword = userPassword;
+
+                //Call the service and pass the value
+             UserService userCreate = new UserService();
+                await userCreate.AddUser(user);
+
+
+              /*  if (userPassword.Length >= 8)
                 {
                     Console.WriteLine($"You entered {userName} {userPassword}");
                     string path = "C:\\BankRegistration";
@@ -67,23 +81,23 @@ namespace Bank_SyStem.Registration
                     else
                     {
                         //Enter admin
-                        string adminName = "admin";
+*//*                        string adminName = "admin";
                         string password = "admin1234";
                         string role = "admin";
-                        string id = "1";
+                        string id = "1";*//*
                         //Create file
-                        File.WriteAllText(pathFile, $"{id}:{adminName}:{password}:{role}");
-                        string[] users = File.ReadAllLines(pathFile);
+*//*                        File.WriteAllText(pathFile, $"{id}:{adminName}:{password}:{role}");*/
+                 /*       string[] users = File.ReadAllLines(pathFile);
                         int members = users.Length;
-                        members++;
-                        File.AppendAllText(pathFile, $"\n{members}:{userName}:{userPassword}:user");
+                        members++;*/
+                       /* File.AppendAllText(pathFile, $"\n:{userName}:{userPassword}:user");*//*
                     }
                 }
                 else
                 {
                     Console.WriteLine("Password Should be eight characters or more");
                     enterRegistration();
-                }
+                }*/
             }
             else
             {

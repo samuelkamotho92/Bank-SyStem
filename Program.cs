@@ -16,10 +16,10 @@ foreach (KeyValuePair <int,string> option in options)
 int optionSelected = int.Parse(Console.ReadLine());
 if(optionSelected == 1)
 {
-    userOne.enterRegistration();
+   await userOne.enterRegistration();
 }else if (optionSelected == 2)
 {
-    member.loginUser();
+  await member.loginUser();
 }else if(optionSelected == 3)
 {
     Console.WriteLine("Operation Canceled being redirected to Home Page");

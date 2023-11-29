@@ -1,4 +1,6 @@
-﻿using Bank_SyStem.Operations;
+﻿using Bank_SyStem.Model;
+using Bank_SyStem.Operations;
+using Bank_SyStem.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace Bank_SyStem.Registration
 {
     public class Login
     {
-        public void loginUser()
+        public async Task loginUser()
         {
             //enter username
             Console.WriteLine("Login by User Name and Password");
@@ -18,13 +20,21 @@ namespace Bank_SyStem.Registration
             Console.WriteLine("Enter User Passowrd");
             string userPassword = Console.ReadLine().ToLower();
             //Check user in the system if does exist 
-            string path = "C:\\BankRegistration";
-            string pathFile = $@"{path}\userRegistration.txt";
+            /* string path = "C:\\BankRegistration";
+             string pathFile = $@"{path}\userRegistration.txt";*/
             //read file
-            string[] members = File.ReadAllLines(pathFile);
-            string validateUser = $"{userName}:{userPassword}";
+            /*    string[] members = File.ReadAllLines(pathFile);*/
+
+            //Get the returned array users
+            UserService userVal = new UserService();
+            List<User> members =  await userVal.GetUsers();
+            Console.WriteLine(members);
+           string validateUser = $"{userName}:{userPassword}";
+           members.Find(x => x.userName == userName && x.userPassword == userPassword);
+           
+            
             //check enterd user if admin or normal user
-        string  registeredMember = Array.Find(members, element => element.Contains(validateUser));
+      /*  string  registeredMember = Array.Find(members, element => element.Contains(validateUser));
             Services serviceOne = new Services();
             if (registeredMember != null)
             //Check role if user is admin or use
@@ -42,7 +52,7 @@ namespace Bank_SyStem.Registration
                     serviceOne.selectServices();
 
                 }
-            }
+            }*/
         }
 
     }
