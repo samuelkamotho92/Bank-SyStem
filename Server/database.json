@@ -4,7 +4,7 @@
       "id": 1,
       "userName": "admins",
       "password": "admin1234",
-        "role": "admin"
+      "role": "admin"
     },
     {
       "role": "user",
@@ -23,6 +23,12 @@
       "userName": "josepth",
       "userPassword": "test1234",
       "id": 4
+    },
+    {
+      "role": "admin",
+      "userName": "admin",
+      "userPassword": "admin1234",
+      "id": 5
     }
   ],
   "services": [
@@ -30,6 +36,21 @@
       "id": 1,
       "serviceName": "deposit",
       "serviceDescription": "Deposit Cash"
+    },
+    {
+      "serviceName": "withdraw",
+      "serviceDescription": "withdraw cash",
+      "id": 2
+    },
+    {
+      "serviceName": "Invest",
+      "serviceDescription": "Invest for tomorrow",
+      "id": 3
+    },
+    {
+      "serviceName": "Morgage",
+      "serviceDescription": "Best morgages",
+      "id": 4
     }
   ]
 }

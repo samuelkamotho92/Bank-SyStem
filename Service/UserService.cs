@@ -35,28 +35,33 @@ namespace Bank_SyStem.Service
             return "Not created yet";
         }
 
-     public async  Task<User> GetUser(int id)
+        public  async Task<User> GetUser(int id)
         {
-            throw new NotImplementedException();
-        }
-
-      public async Task<List<User>> GetUsers()
-        {
-            //Check out all registered users
-            var resp = await _httpClient.GetAsync(URL);
+            var resp = await _httpClient.GetAsync(URL + "/" + id);
             var content = await resp.Content.ReadAsStringAsync();
-          var users =  JsonConvert.DeserializeObject<List<User>>(content);
-            if (resp.IsSuccessStatusCode && users != null)
+            var user = JsonConvert.DeserializeObject<User>(content);
+            if (resp.IsSuccessStatusCode && user != null)
             {
-                Console.WriteLine("Check users");
+                return user;
+            }
+            return user;
+        }
+        public async Task<List<User>> GetUsers()
+        {
+           
+                //Check out all registered users
+                var resp = await _httpClient.GetAsync(URL);
+                var content = await resp.Content.ReadAsStringAsync();
+                var users = JsonConvert.DeserializeObject<List<User>>(content);
+                if (resp.IsSuccessStatusCode && users != null)
+                {
+                    return users;
+                }
+                else
+                {
+                    Console.WriteLine("something went very wrong");
+                }
                 return users;
             }
-            else
-            {
-                Console.WriteLine("error");
-            }
-            return users;
-
-        }
     }
 }

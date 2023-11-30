@@ -20,7 +20,8 @@ namespace Bank_SyStem.Service
         }
         public async Task<string> AddService(AddService service)
         {
-            
+            Console.WriteLine("creating service");
+
             var content = JsonConvert.SerializeObject(service);
             var body = new StringContent(content,Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(URL,body);
@@ -33,12 +34,25 @@ namespace Bank_SyStem.Service
 
         public Task<ServiceProvided> GetService(int id)
         {
-            throw new NotImplementedException();
+
+          
         }
 
-        public Task<List<ServiceProvided>> GetServices()
+        public async Task<List<ServiceProvided>> GetServices()
         {
-            throw new NotImplementedException();
+            //Get all services
+            var resp = await _httpClient.GetAsync(URL);
+            var content = await resp.Content.ReadAsStringAsync();
+            var services = JsonConvert.DeserializeObject<List<ServiceProvided>>(content);
+            if (resp.IsSuccessStatusCode && services != null)
+            {
+                return services;
+            }
+            else
+            {
+                Console.WriteLine("error");
+            }
+            return services;
         }
     }
 }

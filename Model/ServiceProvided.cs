@@ -8,6 +8,7 @@ namespace Bank_SyStem.Model
 {
     public class ServiceProvided
     {
+        public int id { get; set; }
         public string serviceName { get; set; }
 
         public string serviceDescription { get; set; }

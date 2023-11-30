@@ -11,6 +11,7 @@ namespace Bank_SyStem.Registration
 {
     public class Login
     {
+   
         public async Task loginUser()
         {
             //enter username
@@ -28,10 +29,73 @@ namespace Bank_SyStem.Registration
             //Get the returned array users
             UserService userVal = new UserService();
             List<User> members =  await userVal.GetUsers();
-            Console.WriteLine(members);
-           string validateUser = $"{userName}:{userPassword}";
-           members.Find(x => x.userName == userName && x.userPassword == userPassword);
-           
+         /*   Console.WriteLine(members);*/
+       
+            //   string validateUser = $"{userName}:{userPassword}";
+         User user = members.Find(x => x.userName == userName && x.userPassword == userPassword);
+            Services services = new Services();
+            if (user.role == "admin")
+            {
+                Dictionary<int, string> options = new Dictionary<int, string>();
+                options.Add(1, "Check registered Users");
+                options.Add(2, "Get One User");
+                options.Add(3, "Create Sevice");
+                options.Add(00, "Cancel");
+                Console.WriteLine("Choose Options");
+
+                foreach (KeyValuePair<int, string> option in options)
+                {
+                    Console.WriteLine($"{option.Key} : {option.Value}");
+                }
+               int optionSelc = int.Parse(Console.ReadLine());
+                if(optionSelc == 1)
+                {
+                    //1)Check all users in the application
+                    UserService userService = new UserService();
+                  List<User> users =  await userService.GetUsers();
+                    foreach (var oneUser in users)
+                    {
+                        Console.WriteLine($"{oneUser.id} : {oneUser.userName} : {oneUser.role}");
+                    }
+
+                }
+                else if(optionSelc == 2)
+                {
+                    //2)Get Indivual user
+
+
+
+                }else if( optionSelc == 3)
+                {
+                    //show current services
+                    Console.WriteLine("Current Services");
+                    ServiceProv allserv = new ServiceProv();
+                  List<ServiceProvided> mySevices =  await allserv.GetServices();
+                    foreach (var service in mySevices)
+                    {
+                        Console.WriteLine($"{service.id} : {service.serviceName}");
+                    }
+
+                    //Call create service part
+                    await services.createServices();
+
+                }                     
+            }
+            else
+            {
+                //Check services
+                await services.selectServices();
+              
+            }
+/*            if (members.Find(x => x.userName == userName && x.userPassword == userPassword) != null)
+            {
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("Value does not exists");
+            }*/
+        
             
             //check enterd user if admin or normal user
       /*  string  registeredMember = Array.Find(members, element => element.Contains(validateUser));

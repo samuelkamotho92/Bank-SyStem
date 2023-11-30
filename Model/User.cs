@@ -12,6 +12,6 @@ namespace Bank_SyStem.Model
         public string userName { get; set; }
         public string userPassword { get; set; }
 
-        public string role { get; set; }
+        public  string role { get; set; }
     }
 }

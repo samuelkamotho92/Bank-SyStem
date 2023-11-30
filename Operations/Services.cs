@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bank_SyStem.Model;
+using Bank_SyStem.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,49 +29,39 @@ namespace Bank_SyStem.Operations
         }
 
 
-        public void createServices()
+        public async Task createServices()
         {
             Console.WriteLine("Enter Sevice");
             string serviceName = Console.ReadLine();
             Console.WriteLine("Enter Description");
             string serviceDescription = Console.ReadLine();
-            Services serviceOne = new Services(1,serviceName,serviceDescription);
-            string path = "C:\\BankRegistration";
-            string pathFile = $@"{path}\Service.txt";
 
-            if (File.Exists(pathFile))
-            {
-                //Check all service declared earlier
-              string [] allService =  File.ReadAllLines(pathFile);
-                int idVal = allService.Length;
-                idVal++;
+            AddService service = new AddService();
+            service.serviceName = serviceName;
+            service.serviceDescription = serviceDescription;
 
-                //create Service
-                File.AppendAllText(pathFile, $"\n{idVal}:{serviceName}:{serviceDescription}");
-            }
-            else
-            {
-            
-                //Create File
-                File.WriteAllText(pathFile,$"1:{serviceName}:{serviceDescription}");
-            }
-
+            //pass them to service class
+           ServiceProv service1 = new ServiceProv();
+           await service1.AddService(service);
         }
 
         //Select Services
 
-        public void selectServices()
+        public async Task selectServices()
         {
-            string path = "C:\\BankRegistration";
-            string pathFile = $@"{path}\Service.txt";
-            string[] getServices = File.ReadAllLines(pathFile);
             Console.WriteLine("Choose Service");
-            foreach (var item in getServices)
+            ServiceProv service1 = new ServiceProv();
+          List <ServiceProvided> services  = await service1.GetServices();
+            foreach (var service in services)
             {
-                string[] service = item.Split(":");
-                Console.WriteLine($"{service[0]}:{service[1]}");
+                Console.WriteLine($"{service.id} : {service.serviceName}");
             }
-            Console.WriteLine("00:Cancel");
+            /* foreach (var item in getServices)
+             {
+                 string[] service = item.Split(":");
+                 Console.WriteLine($"{service[0]}:{service[1]}");
+             }
+             Console.WriteLine("00:Cancel");*/
         }
 
 
